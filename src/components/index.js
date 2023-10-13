@@ -22,7 +22,7 @@ import {
 } from "./actions";
 import EmptyData from "./dangers/EmptyData";
 import ScrollToTop from "./ScrollToTop";
-import KhsTemplate from "./template/khsTemplate";
+import KhsTemplate from "./template/KhsTemplate";
 
 export {
    Loader,
