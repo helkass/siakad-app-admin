@@ -40,7 +40,6 @@ function App() {
    return (
       <div className="App">
          <Routes>
-            <Route path="*" element={<Error />} />
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Navigate to={"/beranda"} />} />
             <Route
@@ -100,6 +99,7 @@ function App() {
                   </Route>
                   <Route path="berita" element={<UploadBerita />} />
                </Route>
+               <Route path="*" element={<Error />} />
             </Route>
          </Routes>
          <ScrollToTop />
