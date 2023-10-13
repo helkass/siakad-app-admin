@@ -76,7 +76,6 @@ function App() {
                      <Route path="tagihan" element={<DaftarTagihan />} />
                   </Route>
                </Route>
-               <Route path="*" element={<Error />} />
 
                {/* upload pages */}
                <Route path="/uploads">
