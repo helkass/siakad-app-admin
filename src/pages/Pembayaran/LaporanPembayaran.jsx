@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { TableFileDownloadComponent } from "../../components/Table";
 import { useFetch } from "../../helpers";
+import { Link } from "react-router-dom";
+import { FaLink } from "react-icons/fa6";
 
 export default function LaporanPembayaran() {
    const buktiPembayaran = useFetch();
@@ -15,7 +17,7 @@ export default function LaporanPembayaran() {
       if (selected === "Semua") {
          buktiPembayaran.getDatas("/bukti");
       } else {
-         buktiPembayaran.getDatas(`?bank_id=${selected}`);
+         buktiPembayaran.getDatas(`/bukti?bank_id=${selected}`);
       }
    };
 
@@ -30,7 +32,7 @@ export default function LaporanPembayaran() {
             name="bank"
             id="bank"
             defaultValue={"Semua"}
-            className="text-sm focus:outline-emerald-400 bg-emerald-100 px-3 rounded focus:bg-white py-2"
+            className="text-sm focus:outline-emerald-400 bg-emerald-200 px-3 rounded focus:bg-white py-2 shadow-sm"
             onChange={handleSelectChange}>
             <option value="Semua">Semua</option>
             {bank.data !== null &&
@@ -47,6 +49,15 @@ export default function LaporanPembayaran() {
             fileDownloadName={"bukti_pembayaran"}
             headers={["NIM", "Catatan"]}
             keyBody={["nim", "catatan"]}
+            handleDetailPage={(data) => {
+               return (
+                  <td className="pl-1 py-2">
+                     <Link to={`${data.pembayaran}/tagihan?nim=${data.nim}`}>
+                        <FaLink size={23} />
+                     </Link>
+                  </td>
+               );
+            }}
          />
       </div>
    );

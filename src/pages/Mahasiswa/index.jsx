@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { dataMahasiswa } from "../../constants/dataMahasiswa";
-import { TableLinkComponent } from "../../components/Table";
+import {
+   Button,
+   ButtonLinkAdd,
+   FilterDrawer,
+   InputDefault,
+   Paggination,
+   TableLinkComponent,
+} from "../../components";
 import { FiSearch } from "react-icons/fi";
-import Paggination from "../../components/actions/Paggination";
 import { superClient } from "../../api/apiClient";
-import FilterDrawer from "../../components/actions/FilterDrawer";
-import { InputDefault } from "../../components/actions/Input";
-import Button, { ButtonLinkAdd } from "../../components/Button";
 
 const Mahasiswa = () => {
    const [current, setCurrent] = useState(0);
@@ -22,6 +24,7 @@ const Mahasiswa = () => {
       kota: "",
       nim: "",
       kelas: "",
+      semester: "",
    };
 
    const params = new URLSearchParams();
@@ -77,6 +80,10 @@ const Mahasiswa = () => {
          params.append("kelas", query.kelas);
       }
 
+      if (query.semester.length > 0) {
+         params.append("semester", query.semester);
+      }
+
       superClient
          .get("/mahasiswa", {
             params: params,
@@ -110,7 +117,7 @@ const Mahasiswa = () => {
          <div className="flex justify-between mt-4 items-center w-full">
             <label
                htmlFor="search"
-               className="border rounded text-slate-700 flex min-w-[300px] items-center px-2 gap-2 py-1 bg-slate-100">
+               className="border rounded text-slate-700 flex min-w-[300px] items-center px-2 gap-2 py-1 bg-white shadow-sm">
                <FiSearch size={20} className="text-slate-400" />
                <input
                   name="search"
@@ -124,6 +131,14 @@ const Mahasiswa = () => {
                <form
                   onSubmit={handleAdvanceSearch}
                   className="flex flex-col gap-4">
+                  <InputDefault
+                     type="text"
+                     id="semester"
+                     name="semester"
+                     onChange={(e) => (query.semester = e.target.value)}
+                     placeholder="berdasarkan semester"
+                     max={new Date().getFullYear()}
+                  />
                   <InputDefault
                      type="text"
                      id="tahun"
@@ -161,7 +176,7 @@ const Mahasiswa = () => {
                      name="nim"
                      placeholder="nim"
                   />
-                  <Button>Search</Button>
+                  <Button type="submit">Search</Button>
                </form>
             </FilterDrawer>
          </div>
@@ -172,38 +187,39 @@ const Mahasiswa = () => {
                handleNextPage={() => handleNextPage()}
                handlePrevPage={() => handlePrevPage()}
                current={current}
-               data={dataMahasiswa.length}
+               data={data !== null && data.length}
             />
          </div>
          <span className="text-sm">
             jumlah total mahasiswa :{" "}
             <strong>{data !== null && data.length}</strong>
          </span>
-         <div>
-            <div className="overflow-y-auto min-w-8/12">
-               <TableLinkComponent
-                  isLoading={isLoading}
-                  headers={[
-                     "nama",
-                     "NIM",
-                     "kelas",
-                     "jurusan",
-                     "tahun",
-                     "email",
-                     "phone",
-                  ]}
-                  keyBody={[
-                     "name",
-                     "nim",
-                     "kelas",
-                     "jurusan",
-                     "tahun",
-                     "email",
-                     "phone",
-                  ]}
-                  datas={records?.slice(current, nextPage)}
-               />
-            </div>
+         <div className="overflow-y-auto min-w-8/12 bg-white">
+            <TableLinkComponent
+               pathUrl={"/mahasiswa"}
+               isLoading={isLoading}
+               headers={[
+                  "nama",
+                  "NIM",
+                  "kelas",
+                  "jurusan",
+                  "semester",
+                  "tahun",
+                  "email",
+                  "phone",
+               ]}
+               keyBody={[
+                  "name",
+                  "nim",
+                  "kelas",
+                  "jurusan",
+                  "semester",
+                  "tahun",
+                  "email",
+                  "phone",
+               ]}
+               datas={records?.slice(current, nextPage)}
+            />
          </div>
       </div>
    );

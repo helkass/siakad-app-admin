@@ -1,95 +1,29 @@
 import { useEffect, useState } from "react";
 import { useFetch } from "../../helpers";
-import { TableLinkComponent } from "../../components/Table";
-import Button, { ButtonLinkAdd } from "../../components/Button";
 import {
-   FilterDrawer,
    BarCategories,
-   InputDefault,
-} from "../../components/actions";
+   ButtonLinkAdd,
+   Loader,
+   UploadLayout,
+} from "../../components";
 import LaporanPembayaran from "./LaporanPembayaran";
-import UploadLayout from "../../components/Layout/UploadLayout";
+import { Link } from "react-router-dom";
+import { AiOutlineLink } from "react-icons/ai";
+import { currencyFormatter } from "../../utilities/formatter";
 
 const navCategories = ["Daftar", "Laporan"];
 
 const Pembayaran = () => {
-   const { getDatas, data, fetchIsLoading, fetchIsError } = useFetch();
+   const { getDatas, data, fetchIsLoading } = useFetch();
    const [activeContent, setActiveContent] = useState(navCategories[0]);
-   const query = {
-      name: "",
-      semester: "",
-      tahun: "",
-      bank: "",
-   };
-   const params = new URLSearchParams();
-
-   const handleAdvanceSearch = (e) => {
-      e.preventDefault();
-      if (query.tahun.length > 0) {
-         params.append("tahun", query.tahun);
-      }
-
-      if (query.semester.length > 0) {
-         params.append("semester", query.semester);
-      }
-      if (query.bank.length > 0) {
-         params.append("bank", query.bank);
-      }
-      if (query.name.length > 0) {
-         params.append("name", query.name);
-      }
-      getDatas("/pembayaran?" + params);
-   };
 
    useEffect(() => {
-      getDatas("/pembayaran?" + params);
+      getDatas("/pembayaran");
    }, []);
 
    return (
-      <UploadLayout>
-         <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-semibold">Daftar Pembayaran</h2>
-            {activeContent === "Daftar" && (
-               <FilterDrawer>
-                  <form
-                     onSubmit={handleAdvanceSearch}
-                     className="flex flex-col gap-4">
-                     <InputDefault
-                        type="text"
-                        id="tahun"
-                        name="tahun"
-                        onChange={(e) => (query.tahun = e.target.value)}
-                        placeholder="berdasarkan tahun"
-                        max={new Date().getFullYear()}
-                     />
-                     <InputDefault
-                        type="text"
-                        onChange={(e) => (query.semester = e.target.value)}
-                        id="semester"
-                        name="semester"
-                        placeholder="berdasarkan semester ganjil/genap"
-                     />
-                     <InputDefault
-                        id="kota"
-                        onChange={(e) => (query.name = e.target.value)}
-                        type="text"
-                        name="name"
-                        placeholder="nama pembayaran"
-                     />
-                     <InputDefault
-                        onChange={(e) => (query.bank = e.target.value)}
-                        id="bank"
-                        max={13}
-                        type="text"
-                        name="banknim"
-                        placeholder="berdasarkan kode bank"
-                     />
-                     <Button>Search</Button>
-                  </form>
-               </FilterDrawer>
-            )}
-         </div>
-         <div className="w-full flex justify-between items-center">
+      <UploadLayout title="Daftar Pembayaran">
+         <div className="w-full flex justify-between gap-3 items-center">
             <BarCategories
                navCategory={navCategories}
                setActiveContent={(e) => setActiveContent(e)}
@@ -97,6 +31,7 @@ const Pembayaran = () => {
             />
             {activeContent === "Daftar" && (
                <ButtonLinkAdd
+                  className={"self-end"}
                   path={"/pembayaran"}
                   title={"upload pembayaran"}
                />
@@ -104,16 +39,65 @@ const Pembayaran = () => {
          </div>
          {/* lists daftar pembayaran */}
          {activeContent === "Daftar" && (
-            <TableLinkComponent
-               datas={data}
-               isLoading={fetchIsLoading}
-               headers={["nama", "jumlah", "semester", "tahun"]}
-               keyBody={["name", "jumlah", "semester", "tahun"]}
-            />
+            <DaftarPembayaran datas={data} isLoading={fetchIsLoading} />
          )}
 
          {activeContent === "Laporan" && <LaporanPembayaran />}
       </UploadLayout>
+   );
+};
+
+const DaftarPembayaran = ({ datas, isLoading }) => {
+   return (
+      <div className="w-full bg-white p-2">
+         {isLoading ? (
+            <div className="w-full flex justify-center items-center h-full">
+               <Loader />
+            </div>
+         ) : datas !== null ? (
+            <table className="table-auto w-full">
+               <thead className={`border-b mb-3 capitalize font-semibold mt-3`}>
+                  {/* header table */}
+                  <tr>
+                     <th className="pl-1 text-left py-2">Jumlah</th>
+                     <th className="pl-1 text-left py-2">Semester</th>
+                     <th className="pl-1 text-left py-2">Tahun</th>
+                     <th className="pl-1 text-left py-2">detail</th>
+                  </tr>
+               </thead>
+               {/* table contents */}
+               <tbody>
+                  {datas?.map((data, idx) => (
+                     <tr
+                        key={idx}
+                        className={`hover:bg-emerald-100 ${
+                           idx % 2 == 0 && "bg-emerald-50 hover:bg-emerald-100"
+                        }`}>
+                        <td className="pl-1 py-2">
+                           Rp. {currencyFormatter(data?.jumlah)}
+                        </td>
+                        <td className="pl-1 py-2">{data?.semester}</td>
+                        {
+                           <td className="pl-1 py-2">
+                              {data?.tahun_akademik.tahun_mulai}/
+                              {data?.tahun_akademik.tahun_akhir}
+                           </td>
+                        }
+                        <td className="pl-1 py-2">
+                           <Link
+                              className="bg-emerald-100 text-emerald-600"
+                              to={"/pembayaran/" + data.id}>
+                              <AiOutlineLink size={20} />
+                           </Link>
+                        </td>
+                     </tr>
+                  ))}
+               </tbody>
+            </table>
+         ) : (
+            <p>fetch Data Error</p>
+         )}
+      </div>
    );
 };
 

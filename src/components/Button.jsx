@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiFillFileAdd, AiOutlineCloudUpload } from "react-icons/ai";
+import { BiLeftArrowAlt } from "react-icons/bi";
 
 const Button = ({ isLoading, update, upload, error, ...props }) => {
    return (
@@ -37,13 +38,23 @@ const Button = ({ isLoading, update, upload, error, ...props }) => {
    );
 };
 
-export const ButtonLinkAdd = ({ path, title }) => {
+export const ButtonLinkAdd = ({ path, title, className }) => {
    return (
-      <Link to={`/uploads${path}`}>
-         <button className="rounded bg-emerald-50 w-max capitalize font-semibold flex gap-2 items-center text-emerald-600 px-3 py-2">
+      <Link to={`/uploads${path}`} className={className}>
+         <button className="rounded bg-emerald-50 w-max capitalize font-semibold flex gap-2 items-center text-emerald-600 px-3 shadow-md py-2">
             <AiFillFileAdd size={20} /> {title}
          </button>
       </Link>
+   );
+};
+
+export const ButtonBackRoute = () => {
+   const navigate = useNavigate();
+   return (
+      <Button onClick={() => navigate(-1)} type="button" className="text-sm">
+         <BiLeftArrowAlt size={22} />
+         <span className="hidden md:block">Kembali</span>
+      </Button>
    );
 };
 

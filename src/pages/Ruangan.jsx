@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import UploadLayout from "../components/Layout/UploadLayout";
-import { TableLinkComponent } from "../components/Table";
+import {
+   Button,
+   InputDefault,
+   ModalDefaultContainer,
+   TableLinkComponent,
+   UploadLayout,
+} from "../components";
 import { useFetch } from "../helpers";
 import { AiFillFileAdd } from "react-icons/ai";
-import { ModalDefaultContainer } from "../components/actions/Modal";
-import { InputDefault } from "../components/actions";
-import Button from "../components/Button";
 
 const Ruangan = () => {
    const { getDatas, data, fetchIsLoading, postData, deleteData } = useFetch();
@@ -22,7 +24,8 @@ const Ruangan = () => {
          { name },
          {
             "Content-Type": "application/json",
-         }
+         },
+         "/ruangan"
       );
 
       e.target.reset();
@@ -46,6 +49,7 @@ const Ruangan = () => {
                <InputDefault
                   name="name"
                   id="name"
+                  placeholder="nama ruangan"
                   onChange={(e) => setName(e.target.value)}
                />
                <Button isLoading={fetchIsLoading} type="submit">

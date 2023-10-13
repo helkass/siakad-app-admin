@@ -24,7 +24,7 @@ const DetailJadwalKRS = () => {
                   <Loader />
                </div>
             ) : data !== null ? (
-               <table className="table-auto w-full">
+               <table className="table-auto w-full bg-white">
                   <thead
                      className={`border-b mb-3 capitalize font-semibold mt-3`}>
                      {/* header table */}

@@ -11,7 +11,7 @@ export const useFetch = () => {
    const [data, setData] = useState(null);
    const navigate = useNavigate();
 
-   const postData = async (url, body, config) => {
+   const postData = async (url, body, config, refetchUrl) => {
       setLoading(true);
       await superClient
          .post(url, body, {
@@ -30,17 +30,20 @@ export const useFetch = () => {
             setSuccess(true);
          })
          .catch((err) => {
-            console.log(err);
             toast.error(err.response?.data.error, toastConfig);
             setError(true);
          })
-         .finally(() => setLoading(false));
+         .finally(() => {
+            getDatas(refetchUrl);
+            setLoading(false);
+         });
    };
 
-   const getDatas = async (url) => {
+   const getDatas = async (url, params) => {
       setLoading(true);
       await superClient
          .get(url, {
+            params: params,
             headers: {
                api_key_siakad: JSON.parse(
                   localStorage.getItem("api_key_siakad")
@@ -61,7 +64,7 @@ export const useFetch = () => {
    };
 
    // content-type constants of json body
-   const updateData = async (url, body) => {
+   const updateData = async (url, body, refetchUrl) => {
       setLoading(true);
       await superClient
          .put(url, body, {
@@ -77,15 +80,20 @@ export const useFetch = () => {
          })
          .then((res) => {
             toast.success("data berhasil diupdate", toastConfig);
+            if (refetchUrl) {
+               getDatas(refetchUrl);
+            }
          })
          .catch((err) => {
             toast.error(err.response?.data.error, toastConfig);
             setError(true);
          })
-         .finally(() => setLoading(false));
+         .finally(() => {
+            setLoading(false);
+         });
    };
 
-   const deleteData = async (url, redirectUrl) => {
+   const deleteData = async (url, redirectUrl, refetchUrl) => {
       setLoading(true);
       await superClient
          .delete(url, {
@@ -101,9 +109,15 @@ export const useFetch = () => {
          .then((res) => {
             toast.success("data berhasil delete", toastConfig);
 
-            setTimeout(() => {
-               navigate(redirectUrl);
-            }, 2500);
+            if (redirectUrl) {
+               setTimeout(() => {
+                  navigate(redirectUrl);
+               }, 2500);
+            }
+
+            if (refetchUrl) {
+               getDatas(refetchUrl);
+            }
          })
          .catch((err) => {
             toast.error(err.response?.data.error, toastConfig);

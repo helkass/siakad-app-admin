@@ -91,6 +91,13 @@ const UpdateMahasiswa = () => {
                         </select>
                         <InputDefault
                            onChange={handleChangeValue}
+                           defaultValue={mahasiswa.semester}
+                           name="semester"
+                           id="semester"
+                           showLabel
+                        />
+                        <InputDefault
+                           onChange={handleChangeValue}
                            defaultValue={mahasiswa.tahun}
                            name="tahun"
                            id="tahun"

@@ -5,6 +5,8 @@ import {
    InputDefault,
    InputSelectSemester,
    InputSelectDefault,
+   InputSelectTahunAkademik,
+   InputSelectSemesterByNumber,
 } from "./Input";
 import { ModalCategory, ModalDefaultContainer } from "./Modal";
 import Paggination from "./Paggination";
@@ -19,4 +21,6 @@ export {
    ModalCategory,
    ModalDefaultContainer,
    Paggination,
+   InputSelectTahunAkademik,
+   InputSelectSemesterByNumber,
 };

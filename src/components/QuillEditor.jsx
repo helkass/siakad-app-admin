@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import Button from "./Button";
 import { useFetch } from "../helpers";
-import { InputDefault } from "./actions";
+import { InputDefault, InputFile } from "./actions";
+import * as base64Converter from "../utilities/base64Converter";
+import { toastConfig } from "../constants/toastConfig";
+import { toast } from "react-toastify";
 
 /**
  * for berita editor
@@ -11,6 +14,7 @@ import { InputDefault } from "./actions";
 export default function Editor(props) {
    const [editorHtml, setEditorHtml] = useState("");
    const [title, setTitle] = useState("");
+   const [file, setFile] = useState(null);
 
    const { postData, fetchIsLoading, fetchIsSuccess } = useFetch();
 
@@ -19,20 +23,29 @@ export default function Editor(props) {
    }
 
    async function handleUpload() {
-      await postData(
-         "/berita",
-         {
-            title,
-            description: editorHtml,
-         },
-         {
-            "content-Type": "application/json",
+      base64Converter.getBase64(file, async (err, result) => {
+         if (err.status) {
+            toast.error(err.message, toastConfig);
+         } else {
+            await postData(
+               "/berita",
+               {
+                  title,
+                  description: editorHtml,
+                  image: result,
+               },
+               {
+                  "content-Type": "application/json",
+               }
+            );
          }
-      );
+      });
 
-      if (fetchIsSuccess) {
-         setEditorHtml("");
-      }
+      setTimeout(() => {
+         if (fetchIsSuccess) {
+            setEditorHtml("");
+         }
+      }, 1000);
    }
 
    return (
@@ -40,6 +53,10 @@ export default function Editor(props) {
          <InputDefault
             placeholder="title berita"
             onChange={(e) => setTitle(e.target.value)}
+         />
+         <InputFile
+            accept=".jpg, .png, .jpeg"
+            onChange={(e) => setFile(e.target.files[0])}
          />
          <ReactQuill
             theme={"snow"}

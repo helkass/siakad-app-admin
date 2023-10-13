@@ -9,6 +9,9 @@ export const useMahasiswa = () => {
    const [mahasiswaIsError, setError] = useState(false);
    const [mahasiswa, setMahasiswa] = useState(null);
    const [waliMahasiswa, setWaliMahasiswa] = useState(null);
+   const [tagihan, setTagihan] = useState(null);
+   const [transkrip, setTranskrip] = useState(null);
+   const [hasilStudi, setHasilStudi] = useState(null);
 
    const getMahasiswa = async (pathUrl) => {
       const path = pathUrl == undefined || pathUrl == null ? "/" : pathUrl;
@@ -23,6 +26,9 @@ export const useMahasiswa = () => {
          .then((res) => {
             setMahasiswa(res.data.data);
             setWaliMahasiswa(res.data.data?.walimahasiswa);
+            setTagihan(res.data.data?.tagihan_mahasiswa);
+            setTranskrip(res.data.data?.transkrip);
+            setHasilStudi(res.data.data?.hasil_studi);
          })
          .catch((err) => {
             toast.error(err.response?.data.error, toastConfig);
@@ -66,5 +72,8 @@ export const useMahasiswa = () => {
       update,
       deleteMahasiswa,
       waliMahasiswa,
+      tagihan,
+      transkrip,
+      hasilStudi,
    };
 };

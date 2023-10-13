@@ -7,7 +7,7 @@ import { useFetch } from "../../helpers";
 const Berita = () => {
    const { data, getDatas, deleteData, fetchIsLoading } = useFetch();
    const handleDelete = (id) => {
-      deleteData(`/berita/${id}`);
+      deleteData(`/berita/${id}`, false, "/berita");
    };
 
    useEffect(() => {
@@ -16,12 +16,12 @@ const Berita = () => {
    return (
       <UploadLayout title={"Daftar Berita"}>
          <ButtonLinkAdd title={"Upload Berita"} path={"/berita"} />
-         <div className="flex justify-start gap-6 flex-wrap">
+         <div className="grid grid-cols-3 gap-2">
             {data !== null &&
                data.map((art, i) => (
                   <CardBerita
                      title={art.title}
-                     description={art.description}
+                     image={art.image}
                      key={i}
                      href={`${art.id}`}
                      handleDelete={() => handleDelete(art.id)}

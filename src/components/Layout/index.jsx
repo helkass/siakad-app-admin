@@ -3,9 +3,11 @@ import SideBar from "../SideBar";
 
 const DashboardLayout = () => {
    return (
-      <div className="flex gap-3 mx-auto max-w-[1300px] overflow-y-hidden w-full">
+      <div className="flex mx-auto max-w-[1300px] overflow-y-hidden w-full">
          <SideBar />
-         <Outlet />
+         <div className="px-2 w-full bg-gr min-h-screen">
+            <Outlet />
+         </div>
       </div>
    );
 };

@@ -18,17 +18,23 @@ import {
    DetailMataKuliah,
    DetailJadwalKRS,
    Dosen,
+   DaftarTagihan,
 } from "./pages";
 import {
    UploadBerita,
    UploadDosen,
    UploadJadwalkuliah,
+   UploadKHS,
    UploadMahasiswa,
    UploadMataKuliah,
+   UploadOtherStudi,
    UploadPembayaran,
+   UploadRincianPembayaran,
+   UploadTagihanMahasiswa,
    UploadTranskrip,
 } from "./pages/uploads";
 import ProtectRoute from "./middleware/ProtectRoute";
+import { KhsTemplate, ScrollToTop } from "./components";
 
 function App() {
    return (
@@ -48,6 +54,7 @@ function App() {
                   <Route index element={<Mahasiswa />} />
                   <Route path=":id" element={<DetailMahasiswa />} />
                   <Route path=":id/update" element={<UpdateMahasiswa />} />
+                  <Route path=":id/khs" element={<KhsTemplate />} />
                </Route>
                <Route path="dosen" element={<Dosen />} />
                <Route path="study">
@@ -64,7 +71,10 @@ function App() {
                <Route path="settings" element={<Settings />} />
                <Route path="pembayaran">
                   <Route index element={<Pembayaran />} />
-                  <Route path=":id" element={<DetailPembayaran />} />
+                  <Route path=":id">
+                     <Route index element={<DetailPembayaran />} />
+                     <Route path="tagihan" element={<DaftarTagihan />} />
+                  </Route>
                </Route>
                <Route path="*" element={<Error />} />
 
@@ -72,14 +82,28 @@ function App() {
                <Route path="/uploads">
                   <Route path="mahasiswa" element={<UploadMahasiswa />} />
                   <Route path="dosen" element={<UploadDosen />} />
-                  <Route path="pembayaran" element={<UploadPembayaran />} />
-                  <Route path="matkul" element={<UploadMataKuliah />} />
-                  <Route path="transkrip" element={<UploadTranskrip />} />
-                  <Route path="jadwal" element={<UploadJadwalkuliah />} />
+                  <Route path="pembayaran">
+                     <Route index element={<UploadPembayaran />} />
+                     <Route path=":id" element={<UploadRincianPembayaran />} />
+                     <Route
+                        path=":id/tagihan"
+                        element={<UploadTagihanMahasiswa />}
+                     />
+                  </Route>
+                  <Route path="study">
+                     <Route path="matkul" element={<UploadMataKuliah />} />
+                     <Route path="jadwal" element={<UploadJadwalkuliah />} />
+                     <Route path="other" element={<UploadOtherStudi />} />
+                  </Route>
+                  <Route path="transkrip">
+                     <Route index element={<UploadTranskrip />} />
+                     <Route path="new" element={<UploadKHS />} />
+                  </Route>
                   <Route path="berita" element={<UploadBerita />} />
                </Route>
             </Route>
          </Routes>
+         <ScrollToTop />
       </div>
    );
 }

@@ -1,20 +1,23 @@
 const Paggination = ({ handleNextPage, handlePrevPage, current, data }) => {
    return (
-      <div className={`flex text-sm gap-1`}>
+      <div className={`flex text-sm gap-2`}>
          <button
             disabled={current === 0}
             onClick={handlePrevPage}
-            className="px-4 py-1 border border-emerald-100 rounded bg-emerald-100 disabled:cursor-not-allowed disabled:bg-emerald-50">
-            Prev page
+            className={style}>
+            Prev <span className="hidden sm:block">page</span>
          </button>
          <button
             disabled={current > data || data < 15}
             onClick={handleNextPage}
-            className="px-4 py-1 border border-emerald-100 rounded bg-emerald-100 disabled:cursor-not-allowed disabled:bg-emerald-50">
-            Next page
+            className={style}>
+            Next <span className="hidden sm:block">page</span>
          </button>
       </div>
    );
 };
+
+const style =
+   "px-4 py-1 shadow-sm flex gap-1 rounded bg-emerald-200 disabled:cursor-not-allowed disabled:bg-emerald-50";
 
 export default Paggination;

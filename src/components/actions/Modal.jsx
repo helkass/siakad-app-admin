@@ -8,7 +8,7 @@ export const ModalCategory = ({ title, options, setSelectOption }) => {
          <button
             type="button"
             onClick={() => setOpen(!isOpen)}
-            className="px-3 py-1 rounded bg-slate-50 border border-slate-100 text-slate-400">
+            className="px-3 py-1 rounded bg-slate-200 shadow-md">
             {title}
          </button>
          <div
@@ -34,12 +34,10 @@ export const ModalCategory = ({ title, options, setSelectOption }) => {
 export const ModalDefaultContainer = ({ children, isOpen, setOpen }) => {
    return (
       <div
-         className={`absolute ${
+         className={`fixed ${
             isOpen ? "block" : "hidden"
-         } min-w-[400px] min-h-[500px] left-50 translate-x-[50%] rounded backdrop-blur flex justify-center items-center bg-black/10 transition-all ease duration-300`}>
-         <button
-            onClick={setOpen}
-            className="absolute right-2 top-2 text-white">
+         } min-w-[300px] min-h-[500px] left-50 md:translate-x-[50%] rounded shadow backdrop-blur flex justify-center items-center bg-white/50 transition-all ease duration-300`}>
+         <button onClick={setOpen} className="absolute right-2 top-2">
             <AiOutlineClose size={22} />
          </button>
          <div className="min-w-300px bg-white rounded p-3">{children}</div>

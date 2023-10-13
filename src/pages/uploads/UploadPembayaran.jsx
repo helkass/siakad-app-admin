@@ -1,13 +1,14 @@
 import { useState } from "react";
-import Button from "../../components/Button";
-import UploadLayout from "../../components/Layout/UploadLayout";
 import {
+   Button,
    InputDefault,
    InputFile,
    InputSelectSemester,
-} from "../../components/actions/Input";
+   InputSelectTahunAkademik,
+   ModalCategory,
+   UploadLayout,
+} from "../../components";
 import { useFetch } from "../../helpers";
-import { ModalCategory } from "../../components/actions/Modal";
 import { AiOutlineClose } from "react-icons/ai";
 
 export default function UploadPembayaran() {
@@ -71,7 +72,6 @@ export default function UploadPembayaran() {
                   options={[
                      "add single pembayaran",
                      "tambah banyak pembayaran",
-                     "upload csv file",
                   ]}
                   setSelectOption={(e) => setSelectOption(e)}
                />
@@ -86,9 +86,6 @@ export default function UploadPembayaran() {
                      Tambah ke List antrian
                   </Button>
                </>
-            )}
-            {selectOption === "upload csv file" && (
-               <InputFile onChange={(e) => setFile(e.target.files[0])} />
             )}
             <Button
                upload
@@ -131,31 +128,13 @@ const FormData = ({ handleChangeValue }) => {
    return (
       <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-3">
          <InputDefault
-            name="name"
-            id="name"
-            placeholder="nama pembayaran*"
-            onChange={handleChangeValue}
-         />
-         <InputDefault
             id="jumlah"
             name="jumlah"
             placeholder="exp: 3000000"
             onChange={handleChangeValue}
          />
-         <InputDefault
-            onChange={handleChangeValue}
-            name="tahun"
-            id="tahun"
-            placeholder="tahun*"
-         />
          <InputSelectSemester onChange={handleChangeValue} />
-         <InputDefault
-            onChange={handleChangeValue}
-            name="bank"
-            id="bank"
-            type="text"
-            placeholder="kode bank"
-         />
+         <InputSelectTahunAkademik onChange={handleChangeValue} />
       </div>
    );
 };

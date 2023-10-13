@@ -15,6 +15,7 @@ import DetailPembayaran from "./Pembayaran/DetailPembayaran";
 import Berita from "./Berita";
 import PreviewBerita from "./Berita/PreviewBerita";
 import { DetailMataKuliah, DetailJadwalKRS } from "./Study/details";
+import DaftarTagihan from "./Pembayaran/DaftarTagihan";
 
 export {
    Beranda,
@@ -35,4 +36,5 @@ export {
    PreviewBerita,
    DetailJadwalKRS,
    DetailMataKuliah,
+   DaftarTagihan,
 };

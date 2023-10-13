@@ -4,7 +4,7 @@ export function BarCategories({
    activeContent,
 }) {
    return (
-      <div className="flex gap-4">
+      <div className="flex gap-4 border-b">
          {navCategory.map((item) => (
             <button
                onClick={() => setActiveContent(item)}

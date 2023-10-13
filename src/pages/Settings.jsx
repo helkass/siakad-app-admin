@@ -20,8 +20,6 @@ const Settings = () => {
       });
    };
 
-   console.log(data);
-
    useEffect(() => {
       getDatas("/super");
    }, []);

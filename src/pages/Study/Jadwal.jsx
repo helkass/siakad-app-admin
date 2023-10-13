@@ -56,10 +56,10 @@ const Jadwal = () => {
    }, []);
    return (
       <>
-         <div className="flex justify-between items-center">
+         <div className="flex md:justify-between items-center flex-wrap my-6 gap-3">
             <label
                htmlFor="search"
-               className="border rounded text-slate-700 flex min-w-[300px] items-center px-2 gap-2 py-1 bg-slate-100">
+               className="border rounded text-slate-700 flex min-w-[300px] items-center px-2 gap-2 py-1 bg-slate-100 bg-white shadow-sm">
                <FiSearch size={20} className="text-slate-400" />
                <input
                   name="search"
@@ -69,12 +69,14 @@ const Jadwal = () => {
                   className="bg-transparent focus:outline-none w-full placeholder:text-sm"
                />
             </label>
-            <Paggination
-               handleNextPage={() => handleNextPage()}
-               handlePrevPage={() => handlePrevPage()}
-               current={current}
-               data={data !== null && data.length}
-            />
+            <div className="self-end w-max">
+               <Paggination
+                  handleNextPage={() => handleNextPage()}
+                  handlePrevPage={() => handlePrevPage()}
+                  current={current}
+                  data={data !== null && data.length}
+               />
+            </div>
          </div>
          <TableLinkComponent
             isLoading={isLoading}

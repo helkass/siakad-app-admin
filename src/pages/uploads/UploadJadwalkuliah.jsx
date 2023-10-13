@@ -58,7 +58,9 @@ export default function UploadJadwalKuliah() {
                <Loader />
             </div>
          ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col gap-7">
+            <form
+               onSubmit={handleSubmit}
+               className="flex flex-col gap-7 bg-white px-2 py-6">
                <FormData
                   dataDosen={dosen?.data !== null ? dosen?.data : []}
                   dataMatKul={matKul?.data !== null ? matKul?.data : []}

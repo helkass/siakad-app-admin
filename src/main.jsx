@@ -8,8 +8,10 @@ import "react-quill/dist/quill.snow.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
    <React.StrictMode>
-      <BrowserRouter basename={import.meta.env.DEV ? "/" : "/siakad-admin/"}>
+      <BrowserRouter>
          <App />
       </BrowserRouter>
    </React.StrictMode>
 );
+
+// basename={import.meta.env.DEV ? "/" : "/siakad-admin/"}

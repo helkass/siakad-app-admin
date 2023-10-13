@@ -38,3 +38,14 @@ body {
       transform: rotate(360deg);
    }
 }
+
+/* template khs */
+
+#template-khs::before {
+   position: absolute;
+   content: "";
+   width: 100%;
+   background: black;
+   bottom: -3%;
+   height: 2px;
+}
