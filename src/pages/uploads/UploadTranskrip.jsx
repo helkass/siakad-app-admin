@@ -8,24 +8,24 @@ import {
 } from "../../components";
 import * as base64Converter from "../../utilities/base64Converter";
 
+/**
+ * page for rencana studi as a pdf file
+ * and mahasiswa can download it
+ */
 const UploadTranskrip = () => {
    const [file, setFile] = useState(null);
-   const [changeValue, setChangeValue] = useState({});
+   const [nim, setNim] = useState("");
 
    const { fetchIsLoading, postData } = useFetch();
-
-   const handleChangeValue = (e) => {
-      setChangeValue({ ...changeValue, [e.target.name]: e.target.value });
-   };
 
    const handlePost = async (event) => {
       event.preventDefault();
 
-      base64Converter.getBase64(file, async (result) => {
+      base64Converter.getBase64(file, async (err, result) => {
          await postData(
             "/transkrip/rencana",
-            { ...changeValue, file: result },
-            { "Content-Type": "multipart/form-data" }
+            { nim, file: result },
+            { "Content-Type": "application/json" }
          );
       });
 
@@ -41,8 +41,9 @@ const UploadTranskrip = () => {
             <InputDefault
                name="nim"
                id="NIM"
+               type="text"
                placeholder="nim mahasiswa"
-               onChange={handleChangeValue}
+               onChange={(e) => setNim(e.target.value)}
             />
             <InputFile
                accept=".pdf"
