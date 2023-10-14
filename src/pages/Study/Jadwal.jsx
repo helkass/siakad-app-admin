@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
-import { superClient } from "../../api/apiClient";
+import { apiClient } from "../../api/apiClient";
 import { Paggination, TableLinkComponent } from "../../components";
 import { useFetch } from "../../helpers";
 
@@ -24,7 +24,7 @@ const Jadwal = () => {
 
    function fetchData() {
       setLoading(true);
-      superClient
+      apiClient
          .get("/kelas", {
             headers: {
                admin_key_siakad: JSON.parse(

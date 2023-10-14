@@ -8,7 +8,7 @@ import {
    TableLinkComponent,
 } from "../../components";
 import { FiSearch } from "react-icons/fi";
-import { superClient } from "../../api/apiClient";
+import { apiClient } from "../../api/apiClient";
 
 const Mahasiswa = () => {
    const [current, setCurrent] = useState(0);
@@ -31,7 +31,7 @@ const Mahasiswa = () => {
 
    function fetchData() {
       setLoading(true);
-      superClient
+      apiClient
          .get("/mahasiswa", {
             headers: {
                admin_key_siakad: JSON.parse(
@@ -84,7 +84,7 @@ const Mahasiswa = () => {
          params.append("semester", query.semester);
       }
 
-      superClient
+      apiClient
          .get("/mahasiswa", {
             params: params,
             headers: {
