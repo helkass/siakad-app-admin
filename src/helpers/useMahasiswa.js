@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { superClient } from "../api/apiClient";
+import { apiClient } from "../api/apiClient";
 import { headerOptions } from "../constants/app";
 import { toast } from "react-toastify";
 import { toastConfig } from "../constants/toastConfig";
@@ -17,7 +17,7 @@ export const useMahasiswa = () => {
       const path = pathUrl == undefined || pathUrl == null ? "/" : pathUrl;
 
       setLoading(true);
-      await superClient
+      await apiClient
          .get(`/mahasiswa${path}`, {
             headers: {
                ...headerOptions,
@@ -39,7 +39,7 @@ export const useMahasiswa = () => {
 
    const update = async (id, body) => {
       setLoading(true);
-      await superClient
+      await apiClient
          .put(`/mahasiswa/${id}`, body, {
             headers: {
                "content-Type": "application/json",
@@ -57,7 +57,7 @@ export const useMahasiswa = () => {
    };
 
    const deleteMahasiswa = async (nim) => {
-      return await superClient.delete(`/mahasiswa/${nim}`, {
+      return await apiClient.delete(`/mahasiswa/${nim}`, {
          headers: {
             ...headerOptions,
          },

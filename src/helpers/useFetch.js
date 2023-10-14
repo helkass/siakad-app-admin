@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { superClient } from "../api/apiClient";
+import { apiClient } from "../api/apiClient";
 import { toastConfig } from "../constants/toastConfig";
 import { useNavigate } from "react-router-dom";
 
@@ -13,7 +13,7 @@ export const useFetch = () => {
 
    const postData = async (url, body, config, refetchUrl) => {
       setLoading(true);
-      await superClient
+      await apiClient
          .post(url, body, {
             headers: {
                ...config,
@@ -41,7 +41,7 @@ export const useFetch = () => {
 
    const getDatas = async (url, params) => {
       setLoading(true);
-      await superClient
+      await apiClient
          .get(url, {
             params: params,
             headers: {
@@ -66,7 +66,7 @@ export const useFetch = () => {
    // content-type constants of json body
    const updateData = async (url, body, refetchUrl) => {
       setLoading(true);
-      await superClient
+      await apiClient
          .put(url, body, {
             headers: {
                "content-Type": "application/json",
@@ -95,7 +95,7 @@ export const useFetch = () => {
 
    const deleteData = async (url, redirectUrl, refetchUrl) => {
       setLoading(true);
-      await superClient
+      await apiClient
          .delete(url, {
             headers: {
                api_key_siakad: JSON.parse(
